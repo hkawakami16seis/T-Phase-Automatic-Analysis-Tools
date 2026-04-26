@@ -61,10 +61,10 @@ T-Phase-Automatic-Analysis-Tools/
     ├── input/
     │   ├── spectrograms/       # Input PNG files for YOLO
     │   ├── waveforms/          # SAC files for precise estimation
-    │   ├── station_info/       # Station metadata
     │   └── prior_distribution_masked.npy
+    ├── station_info/           # Station metadata (Hinet_pacific_all.d)
     ├── interim/                # Intermediate results
-    ├── processed/              # Processed data with IDs
+    ├── processed/              # ID assigned data
     └── output/                 # Final results and figures
 ```
 
@@ -135,7 +135,7 @@ Converts bounding boxes into timestamps and station locations.
 
 ### 3. Sliding Window Detection
 `03_estimate_sliding_window.py`  
-Detects event candidates using HDBSCAN and GPU acceleration.
+Performs sliding-window HDBSCAN for noise filtering and grid search to detect event candidates.
 
 ### 4. Catalog Refinement
 `04_refine_catalog.py`  
