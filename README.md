@@ -124,6 +124,37 @@ mkdir -p third_party
 git clone https://github.com/ultralytics/yolov5 third_party/yolov5
 ```
 ---
+## 📦 Data Requirements & User Responsibility
+
+While this repository provides a complete analytical framework, the **full raw datasets (spectrograms and waveforms) are not included** due to their large size and licensing restrictions. Users are responsible for acquiring and preparing their own data as follows:
+
+### 📋 Data Availability Matrix
+
+| Category | File Type | Status in Repo | User Responsibility |
+| :--- | :--- | :--- | :--- |
+| **Model Weights** | `.pt` | **Included** | Pre-trained YOLOv5 weights in `models/` |
+| **Station Metadata** | `.csv` | **Included** | List of 250 selected stations in `data/station_info/` |
+| **Prior Map** | `.npy` | **Included** | Spatial probability map in `data/input/` |
+| **Spectrograms** | `.png` | **Sample Only** | Users must generate and place images in `data/input/spectrograms/` |
+| **Waveform Data** | `.sac` | **Sample Only** | Users must download SAC files to `data/input/waveforms/` |
+
+---
+
+### ⚠️ Instructions for User-Prepared Data
+
+#### 1. Spectrogram Images (Step 01 & 02)
+Users must generate spectrograms from raw seismic data. To ensure compatibility with the automated parser in **Step 02**, files must follow this strict naming convention:
+- **Format**: `YYYYMMDDhhmm_[STATION].png`
+- **Example**: `202310090500_N.KAKH .png`
+
+#### 2. Seismic Waveforms (Step 03 & 06)
+- **Acquisition**: We recommend downloading data from the **NIED Hi-net** (Japan) or other regional data centers. Tools like [HinetPy](https://github.com/seisman/HinetPy) are highly recommended for batch processing.
+- **Sampling Rate**: The scripts are optimized for a sampling rate of **1.0 Hz** (`TARGET_FS = 1.0`). If your data differs, the scripts will automatically attempt to resample it, but we recommend verifying the consistency of your SAC headers.
+
+#### 3. Sample Dataset
+To verify your installation, a small **sample dataset** (corresponding to a single event) is provided in the `data/input/` directories. You can run the full pipeline using these samples before applying it to your own large-scale data.
+
+---
 
 ## Usage Guide
 
