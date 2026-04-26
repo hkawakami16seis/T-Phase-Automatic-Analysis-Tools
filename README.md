@@ -127,7 +127,7 @@ Run the pipeline sequentially from **Step 01 to Step 08**:
 
 ### 1. YOLOv5 Detection
 `01_a_run_yolo.sh`  
-Detects T-phase signals from spectrogram PNGs.
+Detects T-phase signals from spectrogram images.
 
 ### 2. Detection Time Conversion
 `02_calc_detection_time.py`  
