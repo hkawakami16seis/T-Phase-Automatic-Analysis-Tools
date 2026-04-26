@@ -163,3 +163,8 @@ Creates publication-quality maps with error ellipses.
 
 - Steps **03** and **06** benefit significantly from GPU acceleration.
 - Maintain strict step order to ensure pipeline integrity.
+
+---
+
+## Acknowledgement
+Station metadata (ID, Latitude, and Longitude) provided in this repository are subsets of the NIED Hi-net station list, used for the reproducibility of this study. We thank NIED for maintaining this critical infrastructure.
