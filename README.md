@@ -148,7 +148,7 @@ Users must generate spectrograms from raw seismic data. To ensure compatibility 
 - **Example**: `202310090500_N.KAKH .png`
 
 #### 2. Seismic Waveforms (Step 03 & 06)
-- **Acquisition**: We recommend downloading data from the **NIED Hi-net** (Japan) or other regional data centers. Tools like [HinetPy](https://github.com/seisman/HinetPy) are highly recommended for batch processing.
+- **Acquisition**: We recommend downloading data from the **NIED Hi-net** (Japan) or other regional data centers.
 - **Sampling Rate**: The scripts are optimized for a sampling rate of **1.0 Hz** (`TARGET_FS = 1.0`). If your data differs, the scripts will automatically attempt to resample it, but we recommend verifying the consistency of your SAC headers.
 
 #### 3. Sample Dataset
