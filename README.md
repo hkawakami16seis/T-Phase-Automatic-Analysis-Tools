@@ -122,6 +122,7 @@ The source code of YOLOv5 is NOT included in this repository. You must clone it 
 ```bash
 mkdir -p third_party
 git clone https://github.com/ultralytics/yolov5 third_party/yolov5
+```
 ---
 
 ## Usage Guide
