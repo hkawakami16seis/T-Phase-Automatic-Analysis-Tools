@@ -149,11 +149,6 @@ Users must generate spectrograms from raw seismic data. To ensure compatibility 
 
 #### 2. Seismic Waveforms (Step 03 & 06)
 - **Acquisition**: We recommend downloading data from the **NIED Hi-net** (Japan) or other regional data centers.
-- **Sampling Rate**: The scripts are optimized for a sampling rate of **1.0 Hz** (`TARGET_FS = 1.0`). If your data differs, the scripts will automatically attempt to resample it, but we recommend verifying the consistency of your SAC headers.
-
-#### 3. Sample Dataset
-To verify your installation, a small **sample dataset** (corresponding to a single event) is provided in the `data/input/` directories. You can run the full pipeline using these samples before applying it to your own large-scale data.
-
 ---
 
 ## Usage Guide
