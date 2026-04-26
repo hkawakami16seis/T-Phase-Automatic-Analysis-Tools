@@ -117,8 +117,11 @@ pip install -r requirements.txt
 
 ### 3. Initialize YOLOv5
 
-Ensure the `third_party/yolov5` directory is properly set up.
+The source code of YOLOv5 is NOT included in this repository. You must clone it manually into the dedicated third_party/ folder.
 
+```bash
+mkdir -p third_party
+git clone https://github.com/ultralytics/yolov5 third_party/yolov5
 ---
 
 ## Usage Guide
