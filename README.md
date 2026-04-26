@@ -1,6 +1,6 @@
 # T-Phase-Automatic-Analysis-Tools
 
-This repository contains the source code for the automated analysis of T-phase (tertiary wave) signals, as presented in the paper:
+This repository contains the source code for the automated analysis of T-phase signals, as presented in the paper:
 
 > **"Next-Generation Framework for T-phase Analysis: Automated Detection of a Significant Anomalous Event at Sofu Seamount in 2023"**
 
