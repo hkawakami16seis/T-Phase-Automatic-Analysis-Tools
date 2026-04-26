@@ -81,20 +81,20 @@ The following libraries are required to run the pipeline. For heavy processing (
    This project uses YOLOv5 as a submodule or external library. Ensure the third_party/yolov5 directory is populated.
 ### Usage Guide
 The analysis follows a strict sequential order (Step 01 to 08):
-1. **Run YOLOv5 Detection** (01_a_run_yolo.sh):
+1. **Run YOLOv5 Detection** (`01_a_run_yolo.sh`):
 Infers T-phase signals from spectrogram PNGs using the trained weights in models/best.pt.
-2. **Calculate Detection Times** (02_calc_detection_time.py):
+2. **Calculate Detection Times** (`02_calc_detection_time.py`):
 Converts YOLO bounding boxes into temporal detections and maps them to station coordinates.
-3. **Sliding Window Search** (03_estimate_sliding_window.py):
+3. **Sliding Window Search** (`03_estimate_sliding_window.py`):
    Simulates real-time detection using HDBSCAN and GPU-accelerated grid search to find event candidates.
-4. **Refine Catalog** (04_refine_catalog.py):
+4. **Refine Catalog** (`04_refine_catalog.py`):
    Merges spatial-temporal duplicates and resolves conflicts where one trigger might belong to multiple events.
-5. **Data Preparation** (05_assign_ids_and_prep.py):
+5. **Data Preparation** (`05_assign_ids_and_prep.py`):
    Standardizes event IDs and prepares metadata for high-precision relocation.
-6. **Prexise Localization & Jackknife** (06_estimate_precise_jk.py):
+6. **Prexise Localization & Jackknife** (`06_estimate_precise_jk.py`):
    Runs Powell optimization for the final epicenter and estimates error ellipses via Jackknife resampling.
-7. **Time-Series Plots** (07_plot_timeseries.py):
+7. **Time-Series Plots** (`07_plot_timeseries.py`):
    Generates Time-Lat and Time-Lon plots to visualize event clusters against theoretical arrivals.
-8. **Epicenter Maps** (08_plot_epicenters.py):
+8. **Epicenter Maps** (`08_plot_epicenters.py`):
    Creates publication-quality maps with error ellipses using PyGMT.
 
