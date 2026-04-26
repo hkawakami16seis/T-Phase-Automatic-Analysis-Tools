@@ -145,7 +145,7 @@ While this repository provides a complete analytical framework, the **full raw d
 #### 1. Spectrogram Images (Step 01 & 02)
 Users must generate spectrograms from raw seismic data. To ensure compatibility with the automated parser in **Step 02**, files must follow this strict naming convention:
 - **Format**: `YYYYMMDDhhmm_[STATION].png`
-- **Example**: `202310090500_N.KAKH .png`
+- **Example**: `202310090500_N.KAKH.png`
 
 #### 2. Seismic Waveforms (Step 03 & 06)
 - **Acquisition**: We recommend downloading data from the **NIED Hi-net** (Japan) or other regional data centers.
