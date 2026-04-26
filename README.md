@@ -124,23 +124,23 @@ mkdir -p third_party
 git clone https://github.com/ultralytics/yolov5 third_party/yolov5
 ```
 ---
-## 📦 Data Requirements & User Responsibility
+## Data Requirements & User Responsibility
 
 While this repository provides a complete analytical framework, the **full raw datasets (spectrograms and waveforms) are not included** due to their large size and licensing restrictions. Users are responsible for acquiring and preparing their own data as follows:
 
-### 📋 Data Availability Matrix
+### Data Availability Matrix
 
 | Category | File Type | Status in Repo | User Responsibility |
 | :--- | :--- | :--- | :--- |
 | **Model Weights** | `.pt` | **Included** | Pre-trained YOLOv5 weights in `models/` |
 | **Station Metadata** | `.csv` | **Included** | List of 250 selected stations in `data/station_info/` |
 | **Prior Map** | `.npy` | **Included** | Spatial probability map in `data/input/` |
-| **Spectrograms** | `.png` | **Sample Only** | Users must generate and place images in `data/input/spectrograms/` |
-| **Waveform Data** | `.sac` | **Sample Only** | Users must download SAC files to `data/input/waveforms/` |
+| **Spectrograms** | `.png` | **Not Included** | Users must generate and place images in `data/input/spectrograms/` |
+| **Waveform Data** | `.sac` | **Not Included** | Users must download SAC files to `data/input/waveforms/` |
 
 ---
 
-### ⚠️ Instructions for User-Prepared Data
+### Instructions for User-Prepared Data
 
 #### 1. Spectrogram Images (Step 01 & 02)
 Users must generate spectrograms from raw seismic data. To ensure compatibility with the automated parser in **Step 02**, files must follow this strict naming convention:
