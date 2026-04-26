@@ -8,7 +8,7 @@ This repository contains the source code for the automated analysis of T-phase s
 
 ## Overview
 
-This framework provides an end-to-end pipeline for seismic T-phase detection and epicenter estimation using deep learning (YOLOv5) and robust statistical clustering (HDBSCAN).
+This framework provides a pipeline for seismic T-phase detection and epicenter estimation using deep learning (YOLOv5) and robust statistical clustering (HDBSCAN).
 
 It is designed to process large volumes of hydroacoustic or seismic data to detect submarine volcanic activity or other seafloor acoustic sources.
 
