@@ -52,26 +52,25 @@ warnings.filterwarnings("ignore")
 # ==========================================
 # 0. Configuration & Paths
 # ==========================================
-# リポジトリのルートを特定
+# Identify Repository Root
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 
-# モジュールフォルダへのパス追加（必要な場合）
+# Add path to module folder
 sys.path.append(str(ROOT_DIR / "modules"))
 
 # ==========================================
 # 1. PARAMETERS
 # ==========================================
 
-# 入力ファイル (Step 02 の出力)
+# Input files
 INPUT_CSV = DATA_DIR / "input" / "triggers_raw.csv"
 PRIOR_MAP_PATH = DATA_DIR / "input" / "prior_distribution_masked.npy"
 
-# 波形データのディレクトリ (SACファイル置き場)
-# ※ここにある *.sac ファイルを読み込みます
+# Waveform data directory
 WAVEFORM_DIR = DATA_DIR / "input" / "waveforms"
 
-# 出力ディレクトリ
+# Output directory
 OUTPUT_DIR = DATA_DIR / "interim" / "sliding_candidates"
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
@@ -188,36 +187,30 @@ def load_prior_interpolator(prior_path):
 # 4. Waveform Loading & GPU Manager
 # ==========================================
 def prepare_waveforms_for_window(start_dt, end_dt, station_list):
-    
+
     clean_stations = set(s.split('.')[-1] if '.' in s else s for s in station_list)
     wave_dict = {}
 
-    # WAVEFORM_DIR 内の全 .sac ファイルを検索
+    # Find all SAC files in WAVEFORM_DIR
     sac_files = glob.glob(str(WAVEFORM_DIR / "*.sac"))
 
-    # 処理中のウィンドウに必要な期間 (マージン含む)
+    # Duration (including margin) required for the window being processed
     req_start = start_dt - timedelta(hours=WAVE_LOAD_MARGIN_HOUR)
     req_end = end_dt + timedelta(hours=WAVE_LOAD_MARGIN_HOUR)
 
     for f in sac_files:
         try:
-            # ヘッダーだけ先に読むなど高速化も可能だが、ここではシンプルに実装
             st = read(f)
             tr = st[0]
 
-            # ステーション名の一致確認
             if tr.stats.station.strip() not in clean_stations: continue
 
-            # 時間範囲の確認（データがウィンドウ内にあるか）
-            tr_start = tr.stats.starttime.datetime.replace(tzinfo=None) # naiveへ変換
+            tr_start = tr.stats.starttime.datetime.replace(tzinfo=None)
             tr_end = tr.stats.endtime.datetime.replace(tzinfo=None)
 
-            # データの期間が、要求期間と重なっているかチェック
-            # (tr_end < req_start) or (tr_start > req_end) なら重なりなし
             if (tr_end < req_start) or (tr_start > req_end):
                 continue
 
-            # トリムと前処理
             tr.trim(obspy.UTCDateTime(req_start), obspy.UTCDateTime(req_end))
             if tr.stats.npts == 0: continue
 
@@ -359,7 +352,6 @@ def perform_grid_search_gpu_robust(lat_range, lon_range, gpu_wave_mgr, df_ev, in
 
         t0_candidates = st_tobs[None, :] - travel_times
 
-        # Robust T0
         t0_est = cp.median(t0_candidates, axis=1)
         residuals = cp.abs(t0_candidates - t0_est[:, None])
         mask1 = residuals < max(T0_CONSENSUS_THRESHOLD_SEC * 2, 10.0)
@@ -509,8 +501,6 @@ def main_sliding_window():
     if not list(WAVEFORM_DIR.glob("*.sac")):
         print(f"[Warning] No SAC files found in {WAVEFORM_DIR}")
         print(f"Please place your waveform files (.sac) in {WAVEFORM_DIR}")
-        # 波形がない場合でもコードが落ちないように処理を続行するか、終了するか選択可能
-        # ここでは続行を試みますが、結果は出ません
 
     prior = load_prior_interpolator(PRIOR_MAP_PATH)
 
@@ -560,7 +550,6 @@ def main_sliding_window():
         # 4. Waveforms
         wave_dict = prepare_waveforms_for_window(current_time, window_end, unique_stations)
 
-        # 波形が読み込めない場合はスキップ
         if not wave_dict:
             current_time += timedelta(minutes=SLIDE_STEP_MINUTES)
             pbar.update(1)
