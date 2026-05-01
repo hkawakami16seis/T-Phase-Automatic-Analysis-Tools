@@ -21,14 +21,11 @@ from pathlib import Path
 # ==========================================
 # 0. Configuration & Paths
 # ==========================================
-# リポジトリのルートを特定
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 
 # Input Paths
-# 1. 元のトリガーデータ (Step 02出力)
 INPUT_TRIGGERS_CSV = DATA_DIR / "input" / "triggers_raw.csv"
-# 2. Step 03で検出されたイベント候補
 INPUT_EVENTS_CSV = DATA_DIR / "interim" / "sliding_candidates" / "events_realtime_final.csv"
 
 # Output Paths
@@ -37,12 +34,12 @@ OUTPUT_CLEAN_CSV = OUTPUT_DIR / "events_catalog_final.csv"
 OUTPUT_DETAILS_DIR = OUTPUT_DIR / "event_details"
 
 # Thresholds
-MERGE_TIME_SEC = 30.0       # この時間差以内で
-MERGE_DIST_KM = 200.0       # この距離以内のイベントは統合する
-MAX_RESIDUAL_SEC = 120.0    # トリガー紐づけの許容誤差
-MIN_STATIONS_FINAL = 10     # 最終的にこの観測点数以上残ったイベントを採用 (Step 03の設定に合わせ調整可)
+MERGE_TIME_SEC = 30.0
+MERGE_DIST_KM = 200.0
+MAX_RESIDUAL_SEC = 120.0
+MIN_STATIONS_FINAL = 10
 VELOCITY = 1.50
-SCAVENGE_RESIDUAL_SEC = 60.0 # 救済時の許容誤差
+SCAVENGE_RESIDUAL_SEC = 60.0
 
 # ==========================================
 # Functions
@@ -66,7 +63,7 @@ def solve_conflicts(events_df, triggers_df):
     events_df['score'] = pd.to_numeric(events_df['score'], errors='coerce')
     events_df['n_unique_stations'] = pd.to_numeric(events_df['n_unique_stations'], errors='coerce')
 
-    # Step 03の出力カラム名に合わせて調整 (window_start, window_end)
+    # Adjust for output column names in Step03 (window_start, window_end)
     cols_to_keep = ['event_id', 'est_lat', 'est_lon', 'est_t0', 'score', 'n_unique_stations', 'window_start', 'window_end']
     existing_cols = [c for c in cols_to_keep if c in events_df.columns]
     ev_data = events_df[existing_cols].to_dict('records')
@@ -97,10 +94,8 @@ def solve_conflicts(events_df, triggers_df):
 
     cand_df = pd.DataFrame(candidates, columns=['trigger_idx', 'event_id', 'residual', 'dist_km', 'predicted_t', 'score'])
 
-    # スコアが高いイベント、残差が小さい順に優先付け
     cand_df = cand_df.sort_values(by=['score', 'residual'], ascending=[False, True])
 
-    # トリガーの重複排除 (1つのトリガーは最も尤もらしい1つのイベントにのみ属する)
     assigned_df = cand_df.drop_duplicates(subset=['trigger_idx'], keep='first')
 
     print("Re-evaluating events...")
@@ -121,8 +116,8 @@ def solve_conflicts(events_df, triggers_df):
 
 def scavenge_orphans(valid_events_df, all_triggers_df, assigned_triggers_df):
     """
-    どのイベントにも割り当てられなかった「孤立トリガー(Orphans)」を再スキャンし、
-    条件を満たせばイベントに追加する(Scavenging)。
+    Rescan for Orphans that were not assigned to any events.
+    If the condition is met, it is added to the event.
     """
     print(f"--- Starting Scavenging (Strict window: +/- {SCAVENGE_RESIDUAL_SEC}s) ---")
 
@@ -236,7 +231,6 @@ def main():
         keep_indices.append(i)
         t_diff = np.abs(t0s[i+1:] - t0s[i])
 
-        # 時間が近いイベントのインデックスを探す
         candidate_idxs = np.where(t_diff < MERGE_TIME_SEC)[0] + (i + 1)
         for j in candidate_idxs:
             if j in dropped_indices: continue
