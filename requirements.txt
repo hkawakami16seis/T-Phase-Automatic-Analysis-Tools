@@ -1,0 +1,19 @@
+# Core Processing
+numpy
+pandas
+scipy
+tqdm
+scikit-learn
+hdbscan
+
+# Seismology
+obspy
+
+# Computer Vision (YOLOv5 dependencies)
+torch
+opencv-python
+
+# Visualization
+pygmt
+geopy
+matplotlib
